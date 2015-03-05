@@ -19,10 +19,33 @@ names(data)<-names(read.table(paste0(filePath,"/",dataName),
 require(lubridate)
 data$Date_time<-as.POSIXlt(dmy(data$Date)+hms(data$Time))
 data<-data[,c(10,3:9)]
+
 View(data)
 
 #Drow and safe plot
-png(filename=paste0(filePath,"/","plot1.png"))
-hist(data[,2],col="red",xlab="Global Active Power (kilowatts)",
-     main="Global Active Power")
+
+
+png(filename=paste0(filePath,"/","plot4.png"))
+
+# make 4 plots
+par(mfrow=c(2,2))
+
+# plot data on top left (1,1)
+plot(data[,1],data[,2],ylab="Global Active Power",type="l",xlab="")
+
+# plot data on top right (1,2)
+plot(data[,1],data[,4],xlab="datetime",ylab="Voltage",type="l")
+
+# plot data on bottom left (2,1)
+lineCol<-c("black","red","blue")
+legenD<-c("Sub_metering_1","Sub_metering_2","Sub_metering_3")
+plot(data[,1],data[,6],type="l",col=lineCol[1],xlab="",
+     ylab="Energy sub metering")
+lines(data[,1],data[,7],col=lineCol[2])
+lines(data[,1],data[,8],col=lineCol[3])
+legend("topright",legend=legenD,col=lineCol,lty="solid",bty="n")
+
+# plot data on bottom right (2,2)
+plot(data[,1],data[,3],xlab="datetime",ylab="Global_reactive_power",type="l")
+
 x<-dev.off()

@@ -19,10 +19,14 @@ names(data)<-names(read.table(paste0(filePath,"/",dataName),
 require(lubridate)
 data$Date_time<-as.POSIXlt(dmy(data$Date)+hms(data$Time))
 data<-data[,c(10,3:9)]
+
 View(data)
 
 #Drow and safe plot
-png(filename=paste0(filePath,"/","plot1.png"))
-hist(data[,2],col="red",xlab="Global Active Power (kilowatts)",
-     main="Global Active Power")
+
+
+png(filename=paste0(filePath,"/","plot2.png"))
+
+plot(data[,1],data[,2],ylab="Global Active Power (kilowatts)",type="l",xlab="")
+
 x<-dev.off()
