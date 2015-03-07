@@ -19,10 +19,11 @@ names(data)<-names(read.table(paste0(filePath,"/",dataName),
 require(lubridate)
 data$Date_time<-as.POSIXlt(dmy(data$Date)+hms(data$Time))
 data<-data[,c(10,3:9)]
+data$Weekdays<-weekdays(data[,1])
 View(data)
 
 #Drow and safe plot
-png(filename=paste0(filePath,"/","plot1.png"))
 hist(data[,2],col="red",xlab="Global Active Power (kilowatts)",
      main="Global Active Power")
-x<-dev.off()
+dev.copy(png,file=paste0(filePath,"/","plot1.png"))
+dev.off()

@@ -19,13 +19,10 @@ names(data)<-names(read.table(paste0(filePath,"/",dataName),
 require(lubridate)
 data$Date_time<-as.POSIXlt(dmy(data$Date)+hms(data$Time))
 data<-data[,c(10,3:9)]
-
+data$Weekdays<-weekdays(data[,1])
 View(data)
 
 #Drow and safe plot
-
-
-png(filename=paste0(filePath,"/","plot3.png"))
 
 lineCol<-c("black","red","blue")
 legenD<-c("Sub_metering_1","Sub_metering_2","Sub_metering_3")
@@ -38,4 +35,5 @@ lines(data[,1],data[,8],col=lineCol[3])
 # add legend
 legend("topright",legend=legenD,col=lineCol,lty="solid")
 
-x<-dev.off()
+dev.copy(png,file=paste0(filePath,"/","plot3.png"))
+dev.off()

@@ -19,16 +19,13 @@ names(data)<-names(read.table(paste0(filePath,"/",dataName),
 require(lubridate)
 data$Date_time<-as.POSIXlt(dmy(data$Date)+hms(data$Time))
 data<-data[,c(10,3:9)]
-
+data$Weekdays<-weekdays(data[,1])
 View(data)
 
 #Drow and safe plot
 
-
-png(filename=paste0(filePath,"/","plot4.png"))
-
 # make 4 plots
-par(mfrow=c(2,2))
+par(mfrow=c(2,2),mar=c(4,2,1,0))
 
 # plot data on top left (1,1)
 plot(data[,1],data[,2],ylab="Global Active Power",type="l",xlab="")
@@ -48,4 +45,5 @@ legend("topright",legend=legenD,col=lineCol,lty="solid",bty="n")
 # plot data on bottom right (2,2)
 plot(data[,1],data[,3],xlab="datetime",ylab="Global_reactive_power",type="l")
 
-x<-dev.off()
+dev.copy(png,file=paste0(filePath,"/","plot4.png"))
+dev.off()
